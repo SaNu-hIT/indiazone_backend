@@ -1,6 +1,6 @@
 import { IsEnum, IsString, IsEmail, IsOptional, IsBoolean } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { UserType } from '../../database/models/user.model';
+import { UserType, UserStatus } from '../../database/models/user.model';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -104,4 +104,23 @@ export class CreateUserDto {
   })
   @IsOptional()
   created_by?: number;
+
+  @ApiProperty({
+    description: 'Is profile reverified',
+    example: false,
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  is_profile_reverified?: boolean;
+
+  @ApiProperty({
+    description: 'User status',
+    enum: UserStatus,
+    example: UserStatus.PENDING,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(UserStatus)
+  status?: UserStatus;
 }

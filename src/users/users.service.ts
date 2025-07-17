@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
+import { Op } from 'sequelize';
 import { User, UserStatus } from '../database/models/user.model';
 import { VendorProfile } from '../database/models/vendor-profile.model';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -218,10 +219,10 @@ export class UsersService {
   async searchUsers(query: string): Promise<User[]> {
     return this.userModel.findAll({
       where: {
-        [this.sequelize.Op.or]: [
-          { first_name: { [this.sequelize.Op.iLike]: `%${query}%` } },
-          { last_name: { [this.sequelize.Op.iLike]: `%${query}%` } },
-          { email: { [this.sequelize.Op.iLike]: `%${query}%` } },
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${query}%` } },
+          { last_name: { [Op.iLike]: `%${query}%` } },
+          { email: { [Op.iLike]: `%${query}%` } },
         ],
       },
       include: [
