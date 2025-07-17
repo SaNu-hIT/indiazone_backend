@@ -1,12 +1,46 @@
 import { Column, Model, Table, DataType, ForeignKey, BelongsTo, CreatedAt, UpdatedAt, Index } from 'sequelize-typescript';
+import { Optional } from 'sequelize';
 import { User } from './user.model';
+
+// Define the attributes interface
+export interface VendorProfileAttributes {
+  id: number;
+  user_id: number;
+  business_type?: string;
+  business_name?: string;
+  company_name?: string;
+  contact_person?: string;
+  designation?: string;
+  country?: string;
+  city?: string;
+  website?: string;
+  business_registration_certificate?: string;
+  gst_number?: string;
+  address?: string;
+  company_details?: string;
+  whatsapp_number?: string;
+  logo?: string;
+  working_days?: string;
+  employee_count?: number;
+  payment_mode?: string;
+  establishment?: number;
+  created_by?: number;
+  updated_by?: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
+// Define creation attributes (fields that are optional during creation)
+export interface VendorProfileCreationAttributes extends Optional<VendorProfileAttributes,
+  'id' | 'created_by' | 'updated_by' | 'created_at' | 'updated_at'
+> {}
 
 @Table({
   tableName: 'vendor_profiles',
   timestamps: true,
   underscored: true,
 })
-export class VendorProfile extends Model {
+export class VendorProfile extends Model<VendorProfileAttributes, VendorProfileCreationAttributes> {
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
